@@ -1,0 +1,89 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\hk}{\widehat{h}_k}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\setlength\parindent{0pt}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1in}
+\title{Derivative of Luque-Seara-Villanueva Method}
+\author{Jieun Seong}
+\date{Last edited on \today}
+
+\begin{document}
+
+%\maketitle
+
+The goal of this note is to show derivative and sum commute in Luque-Seara-Villanueva (LSV) method. Let's start by writing out LSV.
+
+The method of Luque-Seara-Villanueva approximates the rotation number by averaged sums and Richardson extrapolation. 
+
+$$\theta = \Theta_{q,p}(f)+\mathcal{O}(2^{-(p+1)q}),$$
+
+where $\Theta_{q,p}$ is an \textit{extrapolation operator} given by 
+
+$$\Theta_{q,p}(f) := \sum_{j=0}^{p} c_j^p \Tilde{S}_{2^{q-p+j}}^{p}(f),$$ 
+
+where $p$ is the extrapolation order,
+
+$\Tilde{S}$ is the averaged sum given by
+
+$$\Tilde{S}_N^p = {N+p \choose p+1}^{-1} S_N^p = \theta + \sum_{l=1}^{p} \frac{\Tilde{A}_l^{(p)}}{(N+p-l+1)\cdots(N+p)} + E(p,N),$$
+
+$$\Tilde{A}_l^{(p)} = (p-l+2)\cdots(p+1)A_l \text{, } A_l = (-1)^l \sum_{k\in\Z\backslash\{0\}} \xi_k \frac{e^{2(l-1)\pi i k \theta}}{(1-e^{2\pi i k \theta})^{l-1}}, $$
+
+$$S_N^p = {N+p \choose p+1} \theta + \sum_{l=1}^p {N+p-l \choose p+1-l} A_l + (-1)^{p+1} \sum_{k\in\Z\backslash\{0\}}\xi_k \frac{e^{2p\pi i k\theta}(1-e{2\pi i kN \theta})}{(1-e^{2\pi i k \theta})^p}, $$ 
+
+$$S_N^0 = f^N(x_0)-x_0,$$
+
+and the coefficients $\{c_j^p\}_{j=0,...,p}$ are given by 
+$$c_l^p = (-1)^{p-l} \frac{2^{l(l+1)/2}}{\delta(l)\delta(p-l)},$$
+where we define $\delta(n) := (2^n-1)(2^{n-1}-1)\cdots(2^1-1)$ for $n\geq1$ and $\delta(0):=1$.
+
+Our goal is to show that the derivative commutes with the sum in the operator. We will take the derivative with respect to the parameter $\mu$ on which the rotation number depends in a regular way.
+
+Before taking the derivative, let's unravel the recursive sum $S_N^p$ and write it as a simple sum of $S_j^0$'s. 
+
+\begin{equation*}\begin{split}
+S_N^p (f) &= \sum_{j=1}^N S_j^{p-1} (f) \\
+&= \left( \sum_{n_1=1}^{N} \sum_{n_2=1}^{n_1} \sum_{n_3=1}^{n_2} \cdots \sum_{n_{p-2}=1}^{n_{p-3}} n_{p-2} \right) S_1^0 + \left( \sum_{n_1=1}^{N-1} \sum_{n_2=1}^{n_1} \sum_{n_3=1}^{n_2} \cdots \sum_{n_{p-2}=1}^{n_{p-3}} n_{p-2} \right) \alpha_2 S_2^0 \\& \hspace{0.2in} + \cdots + \left( \sum_{n_1=1}^{1} \sum_{n_2=1}^{n_1} \sum_{n_3=1}^{n_2} \cdots \sum_{n_{p-2}=1}^{n_{p-3}} n_{p-2} \right)\alpha_N S_N^0\\
+&= \sum_{j=1}^{N} \left( \sum_{n_1=1}^{N-j+1} \sum_{n_2=1}^{n_1} \cdots \sum_{n_{p-2}=1}^{n_{p-3}} n_{p-2}\right) S_j^0\\
+&= \sum_{j=1}^{N} {N-j+p-1 \choose p-1} S_j^0
+\end{split}\end{equation*}
+
+Let $N=2^{q-p+j}$. Rewriting the operator,
+
+\begin{equation*}\begin{split}
+\Theta_{q,p}(f)
+& = \sum_{j=0}^{p} c_j^p \Tilde{S}_{N}^{p}(f) \\
+& = \sum_{j=0}^{p} c_j^p {N+p \choose p+1}^{-1} S_{N}^{p}(f) \\
+& = \sum_{j=0}^{p} c_j^p {N+p \choose p+1}^{-1} \sum_{n=1}^{N} {N-n+p-1 \choose p-1}S_n^0 \\
+& = \sum_{j=0}^{p} c_j^p {N+p \choose p+1}^{-1} \sum_{n=1}^{N} {N-n+p-1 \choose p-1}(f^n(x_0)-x_0) \\
+& = \sum_{j=0}^{p} \sum_{n=1}^{N} c_j^p {N+p \choose p+1}^{-1} {N-n+p-1 \choose p-1}(f^n(x_0)-x_0) \\
+& = \sum_{j=0}^{p} \frac{c_j^p}{A_N} \sum_{n=1}^{N} W_n^N  (f^n(x_0)-x_0), \\
+& = \sum_{j=0}^{p} \frac{p(p+1)c_j^p}{A_N} \sum_{n=1}^{N} W_n^N  (f^n(x_0)-x_0), \\
+\end{split}\end{equation*}
+
+where $$A_N := (N+p)(N+p-1)(N+p-2)\cdots N$$ 
+
+and $$W_n^N := (N-n+p-1)(N-n+p-2)\cdots(N-n+2).$$
+
+Now, let's take the derivative of the operator. Let $p$ be a fixed finite number. Need to show that for any given $p \leq q$, the sum of the derivative converges. Since $p$ is a fixed finite number, we only have to show the convergence for the inner sum. Let $D$ denote the derivative with respect to $x$ and $\cdot$ the derivative with respect to the parameter $\mu$. Set $y:=h^{-1}(x_0)$. 
+
+\begin{equation*}\begin{split}
+&\frac{1}{A_N} \sum_{n=1}^{N} W_n^N \frac{d}{d\mu} (f^n(x_0)-x_0)\\
+& = \frac{1}{A_N} \sum_{n=1}^{N} W_n^N Dh \circ R^n \circ h^{-1} (x_0) \sum_{l=0}^{n-1} \left(Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l \circ h^{-1}(x_0) \\
+& = \frac{1}{A_N} \sum_{n=1}^{N} W_n^N Dh \circ R^n (y) \sum_{l=0}^{n-1} \left(Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l (y) \\
+& = \frac{1}{A_N} \sum_{n=1}^{N} W_n^N  Dh (y+n\theta) \sum_{l=0}^{n-1} \left(Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l (y)\\
+& = \frac{1}{A_N} \sum_{n=1}^{N} W_n^N \sum_{k\in\Z} 2\pi i k \hk e^{2 \pi i k (y+n\theta)} \sum_{l=0}^{n-1} \left( Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l (y)\\
+& = \frac{1}{A_N} \sum_{n=1}^{N} W_n^N \sum_{k\in\Z} 2\pi i k \hk e^{2 \pi i k y} e^{2 \pi i k n\theta} \sum_{l=0}^{n-1} \left( Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l (y) \\
+& = \frac{1}{A_N} \sum_{k\in\Z} 2\pi i k \hk e^{2 \pi i k y} \sum_{n=1}^{N} W_n^N e^{2 \pi i k n\theta} \sum_{l=0}^{n-1} t\left( Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l (y) \\
+& = 
+\end{split}\end{equation*}
+
+\end{document}

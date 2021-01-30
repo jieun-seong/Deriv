@@ -1,0 +1,52 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\hk}{\widehat{h}_k}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\setlength\parindent{0pt}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1in}
+\title{Derivative of Das-Sander-Yorke Algorithm}
+\author{Jieun Seong}
+\date{}
+
+\begin{document}
+
+%\maketitle
+
+By Fourier, $h(\theta)=\sum_{k\in\Z}\hk e^{2\pi i k \theta}$, so $Dh(\theta)=\sum_{k\in\Z} \hk 2\pi i k e^{2\pi i k \theta}$. Let $\theta = h^{-1}(y)$. 
+
+\begin{equation*}\begin{split}
+     \frac{d}{d\lambda} f^N
+     &= \lim_{L\rightarrow\infty} \frac{1}{A_L} \sum_{N=1}^L w\left(\frac{N}{L}\right) Dh \circ R^N \circ h^{-1}(y) \sum_{j=0}^{N-1} (Dh^{-1} \circ h \Dot{f} \circ f^{-1} \circ h) \circ R^j (\theta)\\
+     &= \frac{1}{A_L}\sum_{N=1}^L w\left(\frac{N}{L}\right) Dh(\theta+\omega N) \sum_{j=0}^{N-1} (Dh^{-1} \circ h \Dot{f} \circ f^{-1} \circ h) \circ R^j (\theta)\\
+     &= \frac{1}{A_L}\sum_{N=1}^L w\left(\frac{N}{L}\right) \sum_{k\in\Z}\hk 2 \pi i k e^{2\pi i k (\theta+\omega N)} \sum_{j=0}^{N-1} (Dh^{-1} \circ h \Dot{f} \circ f^{-1} \circ h) \circ R^j (\theta)\\
+     &\text{Let $s=\frac{t}{L}$. Then, $Lds=dt$, $t=sL$. By Poisson Lemma,}\\
+     &= \frac{1}{A_L}\sum_{N=1}^L \sum_{k\in\Z}\hk 2 \pi i k e^{2\pi i k \theta} \int_\R w(s)e^{2 \pi i (k\omega - N) sL}Lds \sum_{j=0}^{N-1} (Dh^{-1} \circ h \Dot{f} \circ f^{-1} \circ h) \circ R^j (\theta)\\
+     &=\frac{1}{A_L} \sum_{k\in\Z}\hk 2 \pi i k e^{2\pi i k \theta} \sum_{N=1}^L \int_\R w(s)e^{2 \pi i (k\omega - N) sL}Lds \sum_{j=0}^{N-1} (Dh^{-1} \circ h \Dot{f} \circ f^{-1} \circ h) \circ R^j (\theta)\\
+     &\text{Let $\gamma = 2\pi(k\omega-N)L$.} \\
+     &\text{Integrating by parts, $\left| \int_\R w(s)e^{i\gamma s} \right| = \left| \frac{1}{\gamma^m} \int_0^1 w^{(m)}(s)e^{i\gamma s}ds\right| \leq |\gamma|^{-m}\|w^{(m)}\|_1. $}\\
+     &\text{Also, $\left|\sum_{j=0}^{N-1} (Dh^{-1} \circ h \Dot{f} \circ f^{-1} \circ h) \circ R^j (\theta)\right|\leq aN$, for some constant $a$.}\\
+     &\leq \frac{L}{A_L} \sum_{k\in\Z} \left| \hk 2\pi i k e^{2\pi i k \theta} \right| \sum_{N=1}^L|\gamma|^{-m}\|w^{(m)}\|_1 aN\\
+     &\text{Note that $\frac{A_L}{L} \rightarrow \int_0^1 w(s)ds \neq 0$ as $L\rightarrow\infty$, so $\frac{L}{A_L} \leq C_w$ for some constant $C_w$. }\\
+     &\text{Plug back in $\gamma$.}\\
+     &\leq 2\pi a C_w \|w^{(m)}\|_1 \sum_{k\in\Z} |\hk||k| \sum_{N=1}^L|2\pi(k\omega-N)L|^{-m} N\\
+     &=2\pi a C_w \|w^{(m)}\|_1 (2\pi L)^{-m} \sum_{k\in\Z} |\hk||k| \sum_{N=1}^L|k\omega-N|^{-m} N\\
+     &\text{Let $\Tilde{C}_w = 2\pi a C_w \|w^{(m)}\|_1 (2\pi)^{-m}$. }\\
+     &=\Tilde{C}_w L^{-m} \sum_{k\in\Z} |\hk||k| \sum_{N=1}^L|k\omega-N|^{-m} N\\
+     &\text{Note that $\sum|k\omega-N|^{-m}N\leq\sum\left|k\omega-N\right|^{-m}\left(|N-k\omega|+|k\omega|\right) 
+     \leq C_m(1+|k\omega|)$ for some $C_m$.}\\
+     &\leq\Tilde{C}_wC_m L^{-m} \sum_k |\hk||k|(1+|k\omega|)\\
+     &\text{Remark. Finite regularity is enough. $|\hk|\leq C_r |k|^{-r}\|h\|_{C^r}$ for some constant $C_r$.}\\
+     &\leq \Tilde{C}_wC_m L^{-m} \sum_k C_r|k|^{-r}\|h\|_{C^r}|k|(1+|k\omega|)\\
+     &=\Tilde{C}_wC_m C_r L^{-m} \|h\|_{C^r} \sum_k |k|^{-r+1}(1+|k\omega|)
+\end{split}\end{equation*}
+
+This will converge if $r>3$. 
+
+\end{document}

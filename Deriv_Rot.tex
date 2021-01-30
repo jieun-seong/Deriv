@@ -1,0 +1,88 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\title{}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Any real analysis class gives warnings that one cannot conclude from uniform convergence, the convergence of derivatives. Anybody knows how to construct examples.
+
+The goal of this note is that in some problems in dynamical systems, these examples (notably the theory of rotation numbers) are the norm. Indeed, the cases where limits can be exchanged with derivatives are trivial. Theorem..
+
+\section{Set up}
+
+We will identify maps of the circle with nondecreasing maps of the line $f:\mathbb{R}\rightarrow\mathbb{R}$ which satisfy 
+$$f(t+1)=f(t)+1$$
+\label{index}
+As usual in dynamics, we denote $f^n$, the $n$th iterate of $f$ and $f^{-1}$ denotes the inverse. 
+
+It was shown by Poincar\'e [] that $$\rho_f=\lim\frac{1}{n}(f^n(x)-x)$$ exists and is reached uniformly. Indeed $$\left| \frac{1}{n}(f^n(x)-x)-\rho \right|\leq\frac{1}{n}$$
+so that $\rho$ is a property of the map $f$.
+
+When we consider families of mappings $f_\lambda$, $\lambda\in[0,1]$, we can consider the function $\rho_\lambda$ that to $\lambda$ associates $\rho_{f_\lambda}$ is a very interesting function. For a trivial case $R_\lambda=x+\lambda$, we have $\rho_\lambda=x+\lambda$ and it is a differentiable function. 
+
+In a "typical" $f$, however, the function $\rho_\lambda$ is a "devil's staircase". It is constant on open intervals which are dense, but the coplement has positive measure. Indeed in many points in this complement, $\rho_\lambda$ is differentiable. 
+
+The paper [J. Moser 66] showed that when $\rho_{\lambda_0}$ satisfies number theoretic properties, then $\rho_\lambda$ is differentiable at $\lambda=\lambda_0$ and $f_{\lambda_0}=h\circ R_\rho\circ h^{-1}$ then $\rho_\lambda$ is differentiable at $\lambda=\lambda_0$. 
+
+Somewhat later, [Herman, Yaccoz, K-S, K-O] showed that if $\rho_{\lambda_0}$ satisfies arithmeic properties, then $f_{\lambda_0}$ is indeed conjugate to a rotation.
+
+\section{Statement of Results}
+
+In view of the above results, it is natural to ask whether for the ?? numbers covered in the previous results 
+\begin{equation}
+\frac{d}{d\lambda}\rho_\lambda\bigg|_{\lambda=0}=\lim\left(\frac{d}{d\lambda}\frac{1}{n}(f^n(x)-x)\bigg|_{\lambda=\lambda_0}\right)\label{limits exist}
+\end{equation}
+
+The result we want to prove is this limit rarely exists.
+
+\begin{theorem}
+Let $\rho_{\lambda_0}$ be a Diophantine number. Assume that the limit in the RHS of \eqref{limits exist} for some $x$. Then $f_{\lambda_0}$ is a rotation.
+\end{theorem}
+
+Applying the chain rule, we have $$\frac{d}{d\lambda}f^N = \sum_{j=1}^N\left(Df^{N-j}\circ f^j \Dot{f}\circ f^{j-1}\right).$$ We denote by $D$ the derivative with respect to $x$ and by $\cdot$ the derivative with respect to parameters. 
+
+For irrational rotations, we know that for any function $\frac{1}{N}\sum_{j=1}^N\varphi\circ R^j$ converges uniformly to $\int_0^{2\pi}\varphi$
+
+If $f=h\circ R\circ h^{-1}$, then $f^j=h\circ R^j\circ h^{-1}$ and $Df^j=Dh\circ R^j\circ h^{-1}Dh^{-1}$. Therefore \begin{align*}\label{prepared}
+    \frac{1}{N}\frac{d}{d\lambda}f^N 
+    &= \frac{1}{N}\sum_{j=1}^N Df^{N-j}\circ f^j\Dot{f}\circ f^{-1}\circ f^j\\
+    &=\frac{1}{N}\sum_{j=1}^N(Dh)\circ R^N\circ h^{-1}(Dh^{-1})\circ h\circ R^j\circ h^{-1}(\Dot{f}\circ f^{-1})\circ h\circ R^j \circ h^{-1}\\
+    &= Dh\circ R^N\circ h^{-1}\frac{1}{N}\left[\sum_{j=1}^N(Dh^{-1})\circ h\Dot{f}\circ f^{-1}\circ h\right]\circ R^j \circ h^{-1}
+\end{align*}
+
+We note that if $Dh$ is not a constant (which, in such case has to be 1 if $h$ is to satisfy \eqref{index}) then $Dh\circ R^N\circ h^{-1}$ oscillates quasiperiodically. So that if $Dh\not\equiv1$, the limit in \eqref{prepared} is the product of a convergent sequence and a quasi-periodic one. Hence, the limit does not exist. 
+
+Moser's formula for the derivative of the rotation number $f_{\lambda_0}\circ h=h\circ R_\rho$, $Df_{\lambda_0}\circ h Dh = Dh\circ R_\rho$, we try to find expansions $\Dot{f}_{\lambda_0}\circ h+Df_{\lambda_0}\circ h\Dot{h}=\Dot{h}\circ R_\rho+Dh\circ R\Dot{\rho}.$ We write $\Dot{h}=Dh
+W$. Then the equation for the expansion becomes $$\Dot{f}_{\lambda_0}\circ h+Df_{\lambda_0}\circ hDhW = Dh \circ R_\rho W \circ R_\rho + Dh \circ \Dot{R}_\rho,$$
+$$[Dh\circ R]^{-1}\Dot{f}_{\lambda_0}\circ h = W-W\circ R_\rho-\Dot{\rho}.$$
+
+We see that $$\Dot{\rho}=\int Dh\circ R^{-1}\Dot{f}_{\lambda_0}\circ h.$$
+
+In the paper [Luque], derivatives were computed using Moser's formula and some other methods from [Villanueva Luque] that are also rather more sophisticated than the discreet iteration. 
+
+Show that $$\frac{d}{d\lambda}\rho_\lambda\bigg|_{\lambda=0}=\lim_{N\rightarrow\infty}\frac{1}{N}\sum_{j=1}^N\frac{d}{d\lambda}f^j\bigg|_{\lambda=0}$$ (so the limit does not exist, but the Cesaro sum exists). 
+
+Let $x\in\mathbb{T}$, $a_n(x):=Dh\circ R^n\circ h^{-1}(x)$, $b_n(x):=\frac{1}{n}\sum_{j=0}^{n-1}\left[(Dh^{-1})\circ h \dot{f}\circ f^{-1}\circ h\right]\circ R^j\circ h^{-1}(x)$, and $b=\lim_{n\rightarrow\infty}b_n$. $a_n$ is quasi-periodic so $a_nb_n$ will be oscillatory but its Ces\`aro sum converges. Let's how that $\frac{1}{N}\sum_{n=0}^{N-1}a_nb_n$ converges.
+
+\[\left|\frac{1}{N}\sum_{n=0}^{N-1}a_nb_n\right|
+    = \left|\frac{1}{N}\sum_{n=0}^{N-1}(a_nb_n-b+b)\right|
+    \leq \left|\frac{1}{N}\sum_{n=0}^{N-1}a_n(b_n-b)\right| + \left|\frac{1}{N}\sum_{n=0}^{N-1}a_nb\right|\]
+
+\[\left|\frac{1}{N}\sum_{n=0}^{N-1}a_n(b_n-b)\right|  \]
+
+\[\left|\frac{1}{N}\sum_{n=0}^{N-1}a_nb\right|\]
+
+Next, let's see if the derivative of the rotation number with the DSY algorithm converges or diverges.
+
+\end{document}
