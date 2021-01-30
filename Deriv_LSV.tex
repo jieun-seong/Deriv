@@ -10,7 +10,7 @@
 \newtheorem{lemma}[theorem]{Lemma}
 \setlength\parindent{0pt}
 \usepackage{geometry}
-\geometry{legalpaper, margin=1in}
+\geometry{legalpaper, margin=0.6in}
 \title{Derivative of Luque-Seara-Villanueva Method}
 \author{Jieun Seong}
 \date{Last edited on \today}
@@ -19,9 +19,11 @@
 
 %\maketitle
 
-The goal of this note is to show derivative and sum commute in Luque-Seara-Villanueva (LSV) method. Let's start by writing out LSV.
+Goal: show derivative and sum commute in Luque-Seara-Villanueva (LSV) method by proving that the sum of the derivatives converges. 
 
-The method of Luque-Seara-Villanueva approximates the rotation number by averaged sums and Richardson extrapolation. 
+\vspace{0.3in}
+
+Let's start by writing out the LSV method. This method approximates the rotation number by averaged sums and Richardson extrapolation. 
 
 $$\theta = \Theta_{q,p}(f)+\mathcal{O}(2^{-(p+1)q}),$$
 
@@ -73,17 +75,43 @@ where $$A_N := (N+p)(N+p-1)(N+p-2)\cdots N$$
 
 and $$W_n^N := (N-n+p-1)(N-n+p-2)\cdots(N-n+2).$$
 
-Now, let's take the derivative of the operator. Let $p$ be a fixed finite number. Need to show that for any given $p \leq q$, the sum of the derivative converges. Since $p$ is a fixed finite number, we only have to show the convergence for the inner sum. Let $D$ denote the derivative with respect to $x$ and $\cdot$ the derivative with respect to the parameter $\mu$. Set $y:=h^{-1}(x_0)$. 
+Now, let's take the derivative of the operator. Let $p$ be a fixed finite number. Need to show that for any given $p \leq q$, the sum of the derivative converges. Since $p$ is a fixed finite number, it's enough to show the convergence of the inner sum. Let $D$ denote the derivative with respect to $x$ and $\cdot$ the derivative with respect to the parameter $\mu$. Set $y:=h^{-1}(x_0)$. Also, create a function $w(s) \in C^m(\R)$ such that $w(\frac{n}{N}) = W_n^N$.
 
 \begin{equation*}\begin{split}
 &\frac{1}{A_N} \sum_{n=1}^{N} W_n^N \frac{d}{d\mu} (f^n(x_0)-x_0)\\
 & = \frac{1}{A_N} \sum_{n=1}^{N} W_n^N Dh \circ R^n \circ h^{-1} (x_0) \sum_{l=0}^{n-1} \left(Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l \circ h^{-1}(x_0) \\
 & = \frac{1}{A_N} \sum_{n=1}^{N} W_n^N Dh \circ R^n (y) \sum_{l=0}^{n-1} \left(Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l (y) \\
 & = \frac{1}{A_N} \sum_{n=1}^{N} W_n^N  Dh (y+n\theta) \sum_{l=0}^{n-1} \left(Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l (y)\\
-& = \frac{1}{A_N} \sum_{n=1}^{N} W_n^N \sum_{k\in\Z} 2\pi i k \hk e^{2 \pi i k (y+n\theta)} \sum_{l=0}^{n-1} \left( Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l (y)\\
+& = \frac{1}{A_N} \sum_{n=1}^{N} W_n^N \sum_{k\in\Z} 2\pi i k \hk e^{2 \pi i k (y+n\theta)} \sum_{l=0}^{n-1} \left( Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l (y) \text{\hspace{0.2in} (by Fourier) } \\
 & = \frac{1}{A_N} \sum_{n=1}^{N} W_n^N \sum_{k\in\Z} 2\pi i k \hk e^{2 \pi i k y} e^{2 \pi i k n\theta} \sum_{l=0}^{n-1} \left( Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l (y) \\
-& = \frac{1}{A_N} \sum_{k\in\Z} 2\pi i k \hk e^{2 \pi i k y} \sum_{n=1}^{N} W_n^N e^{2 \pi i k n\theta} \sum_{l=0}^{n-1} t\left( Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l (y) \\
-& = 
+& = \frac{1}{A_N} \sum_{k\in\Z} 2\pi i k \hk e^{2 \pi i k y} \sum_{n=1}^{N} W_n^N e^{2 \pi i k n\theta} \sum_{l=0}^{n-1} \left( Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l (y) \\
+& = \frac{1}{A_N} \sum_{k\in\Z} 2\pi i k \hk e^{2 \pi i k y} \sum_{n=1}^{N} \left(\int_\R w(s)e^{2\pi i N (k\theta-n) s} N ds \right) \sum_{l=0}^{n-1} \left( Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l (y) \text{\hspace{0.2in} (by Poisson)}
 \end{split}\end{equation*}
+
+Let $\gamma := 2\pi N(k\theta-n)$. Integrating by parts, we obtain
+
+$$\left| \int_\R w(s)e^{2\pi i N (k\theta-n) s} N ds \right| = \left| \frac{1}{\gamma^m} \int_0^1 w^{(m)}(s) e^{i\gamma s}ds \right| \leq |\gamma|^{-m} \|w^{(m)}\|_1.$$
+
+Also, note that $$\left| \sum_{l=0}^{n-1} \left( Dh^{-1}\circ h \Dot{f}\circ f^{-1}\circ h \right) \circ R^l (y) \right| \leq an$$ for some constant $a$. Hence,
+
+\begin{equation*}\begin{split}
+\left| \frac{1}{A_N} \sum_{n=1}^{N} W_n^N \frac{d}{d\mu} (f^n(x_0)-x_0) \right|
+& \leq \frac{a}{A_N} \sum_{k\in\Z} \left| 2\pi k \hk e^{2 \pi i k y} \right| \sum_{n=1}^{N} n |\gamma|^{-m} \|w^{(m)}\|_1 \\
+& \leq \frac{2\pi a}{A_N} \|w^{(m)}\|_1 \sum_{k\in\Z} |k| \left| \hk \right| \sum_{n=1}^{N} n |\gamma|^{-m} \\
+& = \frac{a\|w^{(m)}\|_1}{A_N (2\pi N)^{m-1}} \sum_{k\in\Z} |k| \left| \hk \right| \sum_{n=1}^{N} n |k\theta-n|^{-m}
+\end{split}\end{equation*}
+
+Using the Diophantine property of $\theta$, $$\sum_{n=1}^{N} n |k\theta-n|^{-m} \leq \sum_{n=1}^{N} |k\theta-n|^{-m} (|n-k\theta|+|k\theta|) \leq C_m (1+k\theta)$$ for some constant $C_m$.
+
+\begin{equation*}\begin{split}
+\frac{a\|w^{(m)}\|_1}{A_N (2\pi N)^{m-1}} \sum_{k\in\Z} |k| \left| \hk \right| \sum_{n=1}^{N} n |k\theta-n|^{-m} 
+& \leq \frac{a\|w^{(m)}\|_1}{A_N (2\pi N)^{m-1}} \sum_{k\in\Z} |k| \left| \hk \right| C_m(1+|k\theta|)\\
+& \leq \frac{aC_m\|w^{(m)}\|_1}{A_N (2\pi N)^{m-1}} \sum_{k\in\Z} |k| C_r |k|^{-r}\|h\|_{C^r} (1+|k\theta|) \text{\hspace{0.2in} (see Remark)}\\
+& = \frac{a C_m C_r\|w^{(m)}\|_1\|h\|_{C^r}}{A_N (2\pi N)^{m-1}} \sum_{k\in\Z} |k|^{-r+1} (1+|k\theta|)
+\end{split}\end{equation*}
+
+Remark. Finite regularity is enough. $|\hk|\leq C_r |k|^{-r}\|h\|_{C^r}$ for some constant $C_r$. 
+
+The sum will converge if $r>3$. Q.E.D.
 
 \end{document}
